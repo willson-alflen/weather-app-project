@@ -2,8 +2,6 @@
 // const app = express();
 // const port = 3000;
 
-const { append } = require("express/lib/response");
-
 // get elements from the DOM
 const weatherApp = document.querySelector(".weather-app");
 const temp = document.querySelector(".temp");
@@ -15,10 +13,10 @@ const icon = document.querySelector(".icon");
 const cloudOutput = document.querySelector(".cloud");
 const humidityOutput = document.querySelector(".humidity");
 const windOutput = document.querySelector(".wind");
-const form = document.querySelector(".locationInput");
+const form = document.querySelector("#locationInput");
 const search = document.querySelector(".search");
 const submitBtn = document.querySelector(".submit");
-const cities = document.querySelector(".city");
+const cities = document.querySelectorAll(".city");
 
 // default city when the page loads up
 let cityInput = "London";
@@ -31,6 +29,9 @@ cities.forEach((city) => {
 
     // function that fetches and displays all the data from the Weather API
     fetchWeatherData();
+
+    // fade out the app (animation)
+    weatherApp.style.opacity = "0";
   });
 });
 
@@ -76,6 +77,9 @@ function dayOfTheWeek(day, month, year) {
 function fetchWeatherData() {
   // weather api key
   let myKey = "95e9114a1a1d485da4194524220406";
+
+
+
   // fetch the data and dynamicaly add the city name with template literals
   fetch(`http://api.weatherapi.com/v1/current.json?key=${myKey}&q=${cityInput}`)
     // convert the data from a JSON format to a regular JS object
@@ -109,7 +113,7 @@ function fetchWeatherData() {
       );
 
       // reformat the icon url to your own local folder path and add it to the page
-      icon.src = "./icons/" + iconID;
+      icon.src = "./assets/icons/" + iconID;
 
       // add the weather details to the page
       cloudOutput.innerHTML = data.current.cloud + "%";
@@ -129,14 +133,18 @@ function fetchWeatherData() {
 
       if (code == 1000) {
         // set the background image to clear if the weather is clear
-        app.style.backgroundImage = `
-        url(./images/${timeOfDay}/clear.jpg)`;
+        weatherApp.style.backgroundImage = `
+        url(./assets/images/${timeOfDay}/clear.jpg)`;
 
-        // change the button bg-color depending on if its day or night
+        // change the button bg-color
+
+        // change the button bg-color depending on if it's day or night
+        submitBtn.style.background = "#e5ba92";
         if (timeOfDay == "night") {
           submitBtn.style.background = "#181e27";
         }
-      } else if (          // cloudy
+      } else if (
+        // cloudy
         code == 1003 ||
         code == 1006 ||
         code == 1009 ||
@@ -149,13 +157,14 @@ function fetchWeatherData() {
         code == 1279 ||
         code == 1282
       ) {
-        app.style.backgroundImage = `
-        url(./images/${timeOfDay}/cloudy.jpg)`;
+        weatherApp.style.backgroundImage = `
+        url(./assets/images/${timeOfDay}/cloudy.jpg)`;
         submitBtn.style.background = "#fa6d1b";
         if (timeOfDay == "night") {
           submitBtn.style.background = "#181e27";
         }
-      } else if (       // rainy
+      } else if (
+        // rainy
         code == 1063 ||
         code == 1069 ||
         code == 1072 ||
@@ -175,33 +184,34 @@ function fetchWeatherData() {
         code == 1249 ||
         code == 1252
       ) {
-        app.style.backgroundImage = `
-        url(./images/${timeOfDay}/rainy.npg)`
-        
+        weatherApp.style.backgroundImage = `
+        url(./assets/images/${timeOfDay}/rainy.jpg)`;
+
         submitBtn.style.background = "#647d75";
 
         if (timeOfDay == "night") {
-          submitBtn.style.background = "#325c80"
+          submitBtn.style.background = "#325c80";
         }
-      } else {      // snowy
-        app.style.backgroundImage = `
-        url(./images/${timeOfDay}/snowy.npg)`
+      } else {
+        // snowy
+        weatherApp.style.backgroundImage = `
+        url(./assets/images/${timeOfDay}/snowy.jpg)`;
 
         submitBtn.style.background = "#4d72aa";
 
         if (timeOfDay == "night") {
-          submitBtn.style.background = "#1b1b1b"
+          submitBtn.style.background = "#1b1b1b";
         }
       }
 
       // fade in the page once all is done
-      app.style.opacity = "1";
+      weatherApp.style.opacity = "1";
     })
-  
+
     // if the user types a city that doesn't exist, throw an alert
     .catch(() => {
       alert("City not found, please try again");
-      app.style.opacity = "1";
+      weatherApp.style.opacity = "1";
     });
 }
 
@@ -209,7 +219,7 @@ function fetchWeatherData() {
 fetchWeatherData();
 
 // fade in the page
-app.style.opacity = "1";
+weatherApp.style.opacity = "1";
 
 // app.listen(port, () => {
 //   console.log(`Server is running on port ${port}`);
