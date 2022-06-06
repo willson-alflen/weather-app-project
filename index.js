@@ -37,6 +37,9 @@ cities.forEach((city) => {
 
 // add submit event to the form
 form.addEventListener("submit", (e) => {
+  // prevents the default behaviour of the form
+    e.preventDefault();
+  
   // if the search bar is empty, throw an alert
   if (search.value.length == 0) {
     alert("Please type in a city");
@@ -52,9 +55,6 @@ form.addEventListener("submit", (e) => {
 
     // fade out the app (animation)
     weatherApp.style.opacity = "0";
-
-    // prevents the default behaviour of the form
-    e.preventDefault();
   }
 });
 
