@@ -8,7 +8,8 @@ Check it out here: [weather-app-project](https://willson-alflen.github.io/weathe
 
 ***
 
-![weather-api-logo](https://user-images.githubusercontent.com/87523872/172050188-9c46ec31-e051-4365-98ea-0a6ed49b5a97.png)
+![weather-app](https://user-images.githubusercontent.com/87523872/176017925-39889a8b-898a-4e03-b885-25faed7d0e68.png)
 
 
-<span>This project was powered by <a href="https://www.weatherapi.com/">Free Weather API.</a></span>
+
+
