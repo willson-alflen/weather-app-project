@@ -1,7 +1,3 @@
-// const express = require("express");
-// const app = express();
-// const port = 3000;
-
 // get elements from the DOM
 const weatherApp = document.querySelector(".weather-app");
 const temp = document.querySelector(".temp");
@@ -19,7 +15,7 @@ const submitBtn = document.querySelector(".submit");
 const cities = document.querySelectorAll(".city");
 
 // default city when the page loads up
-let cityInput = "London";
+let cityInput = "Chapecó";
 
 // add click event to each city in the panel
 cities.forEach((city) => {
@@ -38,8 +34,8 @@ cities.forEach((city) => {
 // add submit event to the form
 form.addEventListener("submit", (e) => {
   // prevents the default behaviour of the form
-    e.preventDefault();
-  
+  e.preventDefault();
+
   // if the search bar is empty, throw an alert
   if (search.value.length == 0) {
     alert("Please type in a city");
@@ -69,8 +65,8 @@ function dayOfTheWeek(day, month, year) {
     "Friday",
     "Saturday",
   ];
-
-  return weekday[new Date(`${day}/${month}/${year}`).getDay()];
+  // console.log(weekday[new Date(`${year}/${month}/${day}`).getDay()]);
+  return weekday[new Date(`${year}/${month}/${day}`).getDay()];
 }
 
 // function that fetches and displays all the data from the Weather API
@@ -78,15 +74,13 @@ function fetchWeatherData() {
   // weather api key
   let myKey = "95e9114a1a1d485da4194524220406";
 
-
-
   // fetch the data and dynamicaly add the city name with template literals
-  fetch(`https://api.weatherapi.com/v1/current.json?key=${myKey}&q=${cityInput}`)
+  fetch(
+    `https://api.weatherapi.com/v1/current.json?key=${myKey}&q=${cityInput}`
+  )
     // convert the data from a JSON format to a regular JS object
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-
       // add temperature and weather condition to the page
       temp.innerHTML = data.current.temp_c + "&#176;";
       conditionOutput.innerHTML = data.current.condition.text;
@@ -96,12 +90,12 @@ function fetchWeatherData() {
       const y = parseInt(date.substr(0, 4));
       const m = parseInt(date.substr(5, 2));
       const d = parseInt(date.substr(8, 2));
-      const time = date.substr(11);
+      const time = date.substr(11, 5);
 
       // reformat the date into something more appealing and add it to the page
       // original format: 2021-10-09 17:53
       // new format: 17:53 - Friday 9, 10 2021
-      dateOutput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d}, ${m}, ${y}`;
+      dateOutput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d}/${m}/${y}`;
       timeOutput.innerHTML = time;
 
       // add the name of the city into the page
@@ -220,7 +214,3 @@ fetchWeatherData();
 
 // fade in the page
 weatherApp.style.opacity = "1";
-
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-// });
